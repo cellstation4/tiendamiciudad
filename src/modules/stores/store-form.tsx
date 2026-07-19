@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import { Field, SelectField, TextareaField } from "@/components/ui/field";
 import { SubmitButton } from "@/components/ui/submit-button";
 import type { ActionState } from "@/modules/stores/actions";
+import { normalizeStoreSlug } from "@/modules/stores/slug";
 
 type StoreValues = {
   name?: string; slug?: string; description?: string | null; email?: string; phone?: string | null; whatsapp?: string | null;
@@ -18,7 +19,7 @@ export function StoreForm({ action, values = {}, submitLabel = "Crear tienda" }:
   return <form action={formAction} className="grid gap-7">
     <section className="grid gap-4 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
       <div><h2 className="font-semibold">Identidad</h2><p className="text-sm text-zinc-500">Datos principales y dirección pública local.</p></div>
-      <div className="grid gap-4 md:grid-cols-2"><Field name="name" label="Nombre comercial" defaultValue={values.name} required error={error("name")} /><Field name="slug" label="Identificador (slug)" defaultValue={values.slug} required placeholder="mi-tienda" error={error("slug")} /></div>
+      <div className="grid gap-4 md:grid-cols-2"><Field name="name" label="Nombre comercial" defaultValue={values.name} required error={error("name")} /><Field name="slug" label="Identificador (slug)" defaultValue={values.slug} required placeholder="mi-tienda" onBlur={(event) => { event.currentTarget.value = normalizeStoreSlug(event.currentTarget.value); }} error={error("slug")} /></div>
       <TextareaField name="description" label="Descripción" defaultValue={values.description ?? ""} error={error("description")} />
       <div className="grid gap-4 md:grid-cols-3"><Field name="email" type="email" label="Email comercial" defaultValue={values.email} required error={error("email")} /><Field name="phone" label="Teléfono" defaultValue={values.phone ?? ""} /><Field name="whatsapp" label="WhatsApp" defaultValue={values.whatsapp ?? ""} /></div>
     </section>
@@ -37,4 +38,3 @@ export function StoreForm({ action, values = {}, submitLabel = "Crear tienda" }:
     <div><SubmitButton>{submitLabel}</SubmitButton></div>
   </form>;
 }
-

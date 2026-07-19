@@ -1,15 +1,19 @@
 import { z } from "zod";
 
+import { normalizeStoreSlug } from "@/modules/stores/slug";
+
 const optionalText = z.string().trim().max(160).optional().or(z.literal(""));
 
 export const storeSchema = z.object({
   name: z.string().trim().min(2, "Ingresá al menos 2 caracteres.").max(80),
-  slug: z
-    .string()
-    .trim()
-    .min(2)
-    .max(60)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Usá minúsculas, números y guiones."),
+  slug: z.preprocess(
+    (value) => (typeof value === "string" ? normalizeStoreSlug(value) : value),
+    z
+      .string()
+      .min(2, "El identificador debe tener al menos 2 caracteres.")
+      .max(60, "El identificador no puede superar 60 caracteres.")
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Usá letras, números o guiones."),
+  ),
   description: z.string().trim().max(500).optional().or(z.literal("")),
   email: z.email("Ingresá un email válido."),
   phone: optionalText,
@@ -32,4 +36,3 @@ export const invitationSchema = z.object({
 });
 
 export type StoreInput = z.infer<typeof storeSchema>;
-
