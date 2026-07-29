@@ -1,3 +1,4 @@
+
 # Nexo Commerce
 
 MVP local de una plataforma e-commerce multiusuario y multitienda. La Etapa 1 implementa la base real de autenticación, aislamiento por comercio, roles, configuración de tiendas y panel administrativo. El proyecto no usa servicios pagos, no requiere Docker y no tiene ningún remoto configurado.
@@ -152,4 +153,6 @@ La Etapa 1 cubre la matriz de permisos, el scope multitienda y la validación de
 4. Etapa 5: hardening, pruebas de integración/E2E, accesibilidad, seeds completos y documentación de producción.
 
 No se ha hecho push ni se ha configurado GitHub.
+
+=======
 
